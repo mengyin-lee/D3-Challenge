@@ -126,11 +126,20 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         xLabel = "Obese (%)";
     }
 
-    var toolTip = d3.tip()
+    // var toolTip = d3.tip()
+    //   .attr("class", "tooltip")
+    //   .offset([-8, 0])
+    //   .html(function(d) {
+    //     return (`${d.state}<br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}%`);
+    //   });
+
+     var toolTip = d3.tip()
       .attr("class", "tooltip")
-      .offset([-8, 0])
+      .offset([80,-60])
+      // .style("left", d3.event.pageX + "px")
+      // .style("top", d3.event.pageY + "px")
       .html(function(d) {
-        return (`${d.state}<br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}%`);
+        return (`<strong>${d.state}<br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}%`);
       });
   
     circlesGroup.call(toolTip);
@@ -189,7 +198,7 @@ d3.csv("assets/data/data.csv").then(function(censusData){
         .classed("stateCircle", true)
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
-        .attr("r", 12)
+        .attr("r", 15)
         .attr("opacity", "5.0");
 
     // state abbreviation text
@@ -201,14 +210,15 @@ d3.csv("assets/data/data.csv").then(function(censusData){
         .attr("x", d => xLinearScale(d[chosenXAxis]))
         .attr("y", d => yLinearScale(d[chosenYAxis]))
         .attr("dy", 3)
-        .attr("font-size", "10px")
+        .attr("font-size", "11px")
         .text(function(d) { return d.abbr });
 
     // create groups for x, y axes lables
     //== x Lable Group ==
     var xLabelsGroup = chartGroup.append("g")
     .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
-    .attr("class", "axisText");
+    .classed("aText", true);
+    
   
     var povertyXLabel = xLabelsGroup.append("text")
     .attr("value", "poverty") // value to grab for event listener
@@ -236,14 +246,14 @@ d3.csv("assets/data/data.csv").then(function(censusData){
     .attr("transform", `translate(${0 - margin.left/2}, ${(height/2)})`)
     .attr("transform", "rotate(-90)")
     .attr("dy", "1em")
-    .attr("class", "axisText");
+    // .attr("text-anchor","middle")
+    .classed("aText", true);
 
     var healthcareYLabel = yLabelsGroup.append("text")
     .attr("value", "healthcare")
     .attr("x", 0 - 200)
     .attr("y", 0 - 30)
     .classed("active", true)
-    // .attr("text-anchor","middle")
     .text("Lacks Healthcare (%)");
 
     var smokesYLabel = yLabelsGroup.append("text")
@@ -276,6 +286,8 @@ d3.csv("assets/data/data.csv").then(function(censusData){
             //replace chosenXAxis with value
             chosenXAxis = value;
 
+            console.log(chosenXAxis)
+
             //update x scale for new data
             xLinearScale = xScale(censusData, chosenXAxis);
 
@@ -307,6 +319,7 @@ d3.csv("assets/data/data.csv").then(function(censusData){
                     ageXLabel.classed("active", true).classed("inactive", false);
             }
         }
+      });
 
     //y axis labels event listener
       yLabelsGroup.selectAll("text")
@@ -352,7 +365,6 @@ d3.csv("assets/data/data.csv").then(function(censusData){
           }
       });
 
-    });
 
 
 }).catch(function(error) {
