@@ -86,7 +86,7 @@ d3.csv("assets/data/data.csv").then(function(censusData){
         .classed("stateCircle", true)
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
-        .attr("r", 12)
+        .attr("r", 14)
         .attr("opacity", "5.0");
 
     // state abbreviation text
@@ -98,7 +98,7 @@ d3.csv("assets/data/data.csv").then(function(censusData){
         .attr("x", d => xLinearScale(d[chosenXAxis]))
         .attr("y", d => yLinearScale(d[chosenYAxis]))
         .attr("dy", 3)
-        .attr("font-size", "10px")
+        .attr("font-size", "11px")
         .text(function(d) { return d.abbr });
 
     // x, y axes lables
