@@ -1,8 +1,8 @@
 // Homework Bonus: Data Journalism and D3
 // Reference: 16-D3-12 activity
-// Step 1: Set up chart
 //= ================================
 
+// Set up chart
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -18,8 +18,8 @@ var height = svgHeight - margin.top - margin.bottom;
 
 // Create an SVG wrapper,
 // append an SVG group that will hold our chart,
-// and shift the latter by left and top margins.
-// =================================
+// and shift the group by left and top margins.
+// ==================================================
 var svg = d3
     .select("#scatter")
     .append("svg")
@@ -35,21 +35,21 @@ var chartGroup = svg.append("g")
 // Create functions relating to X-Axis
 // ===================================
 
-var chosenXAxis = "poverty";
+var chosenXAxis = "poverty";//initialize
 
-// create function used to update x-scale variable upon clicking on axis label
+// create function used to update x-scale variable upon clicking on x axis chosen label
 function xScale(censusData, chosenXAxis) {
     // create x linear scales
     var xLinearScale = d3.scaleLinear()
         .domain([d3.min(censusData, d => d[chosenXAxis]) * 0.75,
                  d3.max(censusData, d => d[chosenXAxis]) * 1.25])
-        .range([0, width]);
-  
+        .range([0, width]); 
     return xLinearScale;
 }
-// create function used to render X-Axis upon clicking on axis label
+// create function used to render X-Axis upon clicking on x axis chosen label
 function renderXAxis(newXScale, xAxis) {
-    var bottomAxis = d3.axisBottom(newXScale);
+    
+  var bottomAxis = d3.axisBottom(newXScale);
   
     xAxis.transition()
       .duration(1000)
@@ -61,22 +61,22 @@ function renderXAxis(newXScale, xAxis) {
 // ===================================
 // Create functions relating to Y-Axis
 // ===================================
-var chosenYAxis = "healthcare";
+var chosenYAxis = "healthcare";//initialize
 
-// created function used to update y-scale variable upon clicking on axis label
+// created function used to update y-scale variable upon clicking on y axis chosen label
 function yScale(censusData, chosenYAxis) {
     //create y linear scales
     var yLinearScale = d3.scaleLinear()
         .domain([d3.min(censusData, d => d[chosenYAxis]) * 0.75,
                  d3.max(censusData, d => d[chosenYAxis]) * 1.25])
         .range([height, 0]);
-
     return yLinearScale;
 }
 
 // create functions used to render y-Axis upon clicking on y axis label
 function renderYAxis(newYScale, yAxis) {
-    var leftAxis = d3.axisLeft(newYScale);
+    
+  var leftAxis = d3.axisLeft(newYScale);
 
     yAxis.transition()
         .duration(1000)
@@ -85,7 +85,7 @@ function renderYAxis(newYScale, yAxis) {
     return yAxis;
 }
 
-// create function to render chosen axis upon clicking on the axis
+// create function to highlight and update text upon clicking on the chosen axis
 function renderText(textgroup, newXScale, chosenXAxis, newYScale, chosenYAxis){
 
   textgroup.transition()
@@ -96,7 +96,7 @@ function renderText(textgroup, newXScale, chosenXAxis, newYScale, chosenYAxis){
   return textgroup;
 }
 
-// function used for updating circles group with a transition to
+// create function used for updating circles group with a transition to
 // new circles based on chosenXAxis or/and chosenYAxis
 function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
 
@@ -109,11 +109,11 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYA
   }
 
 //*********************************************************************
-// function used for updating circles group with new tooltip
+// create function used for updating circles group with new tooltip
 //*********************************************************************
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
-    // select x Label
+    // if select x Label, having 3 choices
     var xLabel;
   
     if (chosenXAxis === "poverty"){
@@ -126,7 +126,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         xLabel = "Age (Median) :";
     }
   
-    // select y Label
+    // if select y Label, having 3 choices
     var yLabel;
 
     if (chosenYAxis === "healthcare"){
@@ -141,7 +141,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
      var toolTip = d3.tip()
       .attr("class", "tooltip")
-      .offset([8,-10])
+      .offset([10,-10])
       // .style("left", d3.event.pageX + "px")
       // .style("top", d3.event.pageY + "px")
       .html(function(d) {
@@ -152,7 +152,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   
       // on mouseover event
     circlesGroup.on("mouseover", function(data) {
-      toolTip.show(data, this);})
+      toolTip.show(data, this);}) // add ", this" from just toolTip.show(data) initially
 
       // on mouseout event
                 .on("mouseout", function(data, index) {
@@ -255,21 +255,21 @@ d3.csv("assets/data/data.csv").then(function(censusData){
     .classed("aText", true);
 
     var healthcareYLabel = yLabelsGroup.append("text")
-    .attr("value", "healthcare")
+    .attr("value", "healthcare") // value to grab for event listener
     .attr("x", 0 - 200)
     .attr("y", 0 - 30)
     .classed("active", true)
     .text("Lacks Healthcare (%)");
 
     var smokesYLabel = yLabelsGroup.append("text")
-    .attr("value", "smokes")
+    .attr("value", "smokes") // value to grab for event listener
     .attr("x", 0 - 200)
     .attr("y", 0 - 50)
     .classed("inactive", true)
     .text("Smokes (%)");
 
     var obesityYLabel = yLabelsGroup.append("text")
-    .attr("value", "obesity")
+    .attr("value", "obesity") // value to grab for event listener
     .attr("x", 0 - 200)
     .attr("y", 0 - 70)
     .classed("inactive", true)

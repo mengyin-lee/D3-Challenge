@@ -16,8 +16,7 @@ var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
 // Step 2: Create an SVG wrapper,
-// append an SVG group that will hold our chart,
-// and shift the latter by left and top margins.
+
 // =================================
 var svg = d3
     .select("#scatter")
@@ -25,6 +24,8 @@ var svg = d3
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
+// append an SVG group that will hold our chart,
+// and shift the group by left and top margins.
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -101,7 +102,7 @@ d3.csv("assets/data/data.csv").then(function(censusData){
         .attr("font-size", "11px")
         .text(function(d) { return d.abbr });
 
-    // x, y axes lables
+    // x, y axes lables: poverty vs healthcare
     var povertyLabel = chartGroup.append("text")
     .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
     .attr("class", "axisText")
