@@ -37,9 +37,9 @@ var chartGroup = svg.append("g")
 
 var chosenXAxis = "poverty";
 
-// create function used for updating x-scale var upon click on axis label
+// create function used to update x-scale variable upon clicking on axis label
 function xScale(censusData, chosenXAxis) {
-    // create scales
+    // create x linear scales
     var xLinearScale = d3.scaleLinear()
         .domain([d3.min(censusData, d => d[chosenXAxis]) * 0.75,
                  d3.max(censusData, d => d[chosenXAxis]) * 1.25])
@@ -47,7 +47,7 @@ function xScale(censusData, chosenXAxis) {
   
     return xLinearScale;
 }
-// create function used for updating xAxis var upon click on axis label
+// create function used to render X-Axis upon clicking on axis label
 function renderXAxis(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
   
@@ -63,9 +63,9 @@ function renderXAxis(newXScale, xAxis) {
 // ===================================
 var chosenYAxis = "healthcare";
 
-// created function used for updating y-scale var upon clicking on axis label
+// created function used to update y-scale variable upon clicking on axis label
 function yScale(censusData, chosenYAxis) {
-    //create scales
+    //create y linear scales
     var yLinearScale = d3.scaleLinear()
         .domain([d3.min(censusData, d => d[chosenYAxis]) * 0.75,
                  d3.max(censusData, d => d[chosenYAxis]) * 1.25])
@@ -74,7 +74,7 @@ function yScale(censusData, chosenYAxis) {
     return yLinearScale;
 }
 
-// create functions used for updating yAxis var upon click on axis label
+// create functions used to render y-Axis upon clicking on y axis label
 function renderYAxis(newYScale, yAxis) {
     var leftAxis = d3.axisLeft(newYScale);
 
@@ -85,7 +85,7 @@ function renderYAxis(newYScale, yAxis) {
     return yAxis;
 }
 
-// function rendertext
+// create function to render chosen axis upon clicking on the axis
 function renderText(textgroup, newXScale, chosenXAxis, newYScale, chosenYAxis){
 
   textgroup.transition()
@@ -108,8 +108,9 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYA
     return circlesGroup;
   }
 
-//**********************************************************
+//*********************************************************************
 // function used for updating circles group with new tooltip
+//*********************************************************************
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     // select x Label
@@ -275,10 +276,11 @@ d3.csv("assets/data/data.csv").then(function(censusData){
     .text("Obese (%)");
           
 
-  //updateToolTip function with data
+  //update ToolTip function with data
     var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
-
+  //=========================================
   //x axis labels event listener
+  //=========================================
     xLabelsGroup.selectAll("text")
     .on("click", function() {
         //get value of selection
@@ -317,7 +319,6 @@ d3.csv("assets/data/data.csv").then(function(censusData){
                     povertyXLabel.classed("active", false).classed("inactive", true);
                     incomeXLabel.classed("active", true).classed("inactive", false);
                     ageXLabel.classed("active", false).classed("inactive", true);
-
             } else {
                     povertyXLabel.classed("active", false).classed("inactive", true);
                     incomeXLabel.classed("active", false).classed("inactive", true);
@@ -325,8 +326,9 @@ d3.csv("assets/data/data.csv").then(function(censusData){
             }
         }
       });
-
+    //=========================================
     //y axis labels event listener
+    //=========================================
       yLabelsGroup.selectAll("text")
       .on("click", function() {
           //get value of selection
@@ -369,9 +371,6 @@ d3.csv("assets/data/data.csv").then(function(censusData){
               }
           }
       });
-
-
-
 }).catch(function(error) {
     console.log(error);
   });
